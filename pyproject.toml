@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "pxturtle"
+version = "0.1.0"
+description = "Pixel Art using Python's turtle graphics"
+authors = ["cybardev <sheikh@cybar.dev>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
