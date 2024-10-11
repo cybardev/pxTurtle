@@ -1,5 +1,6 @@
 from turtle import Screen, Turtle
-from utils import pixelart, next_pow_of_2
+
+from .utils import pixelart, next_pow_of_2
 
 
 if __name__ == "__main__":
