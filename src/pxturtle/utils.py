@@ -20,6 +20,7 @@ class Pixel:
 
 @dataclass
 class Pen:
+    t: Turtle
     color: str = "#000000"
     pixel_scale: int = 1
 
@@ -27,19 +28,21 @@ class Pen:
         init_pos = (0, 0)
         self._pixel = Pixel(*init_pos, self.color, self.pixel_scale)
 
-    def draw(self, x, y, t: Turtle):
+    def draw(self, x, y):
         PIXEL_SIZE: int = 10
-        t.penup()
-        t.goto(x * self.pixel_scale * PIXEL_SIZE, -y * self.pixel_scale * PIXEL_SIZE)
-        t.setheading(90)
-        t.color(self.color)
-        t.pendown()
-        t.begin_fill()
+        self.t.penup()
+        self.t.goto(
+            x * self.pixel_scale * PIXEL_SIZE, -y * self.pixel_scale * PIXEL_SIZE
+        )
+        self.t.setheading(90)
+        self.t.color(self.color)
+        self.t.pendown()
+        self.t.begin_fill()
         # draw scaled pixel
         for _ in range(4):
-            t.fd(self.pixel_scale * PIXEL_SIZE)
-            t.left(90)
-        t.end_fill()
+            self.t.fd(self.pixel_scale * PIXEL_SIZE)
+            self.t.left(90)
+        self.t.end_fill()
 
 
 @dataclass
@@ -48,11 +51,12 @@ class Rect:
     y_pos: int
     width: int
     height: int
+    t: Turtle
     color: str = "#000000"
     pixel_scale: int = 1
 
     def __post_init__(self):
-        self._pen = Pen(self.color, self.pixel_scale)
+        self._pen = Pen(self.t, self.color, self.pixel_scale)
 
     @property
     def pos(self) -> tuple[int, int]:
