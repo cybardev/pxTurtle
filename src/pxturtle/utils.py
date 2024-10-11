@@ -75,7 +75,10 @@ class Rect:
         self.width, self.height = size
 
     def draw(self):
-        pass
+        with self.width as cols, self.height as rows:
+            for r in rows:
+                for c in cols:
+                    self._pen.draw(self.x_pos + c, -(self.y_pos + r))
 
 
 def pixel(
