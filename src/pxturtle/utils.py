@@ -79,7 +79,7 @@ class Rect:
 
 
 def pixel(
-    pen: Turtle,
+    t: Turtle,
     color: str,
     row: int,
     col: int,
@@ -88,35 +88,35 @@ def pixel(
     y_offset: int,
 ):
     PIXEL_SIZE: int = 10
-    pen.penup()
-    pen.goto(col * scale * PIXEL_SIZE + x_offset, -row * scale * PIXEL_SIZE + y_offset)
-    pen.setheading(90)
-    pen.color(color)
-    pen.pendown()
-    pen.begin_fill()
+    t.penup()
+    t.goto(col * scale * PIXEL_SIZE + x_offset, -row * scale * PIXEL_SIZE + y_offset)
+    t.setheading(90)
+    t.color(color)
+    t.pendown()
+    t.begin_fill()
     # draw scaled pixel
     for _ in range(4):
-        pen.fd(scale * PIXEL_SIZE)
-        pen.left(90)
-    pen.end_fill()
+        t.fd(scale * PIXEL_SIZE)
+        t.left(90)
+    t.end_fill()
 
 
 def pixelart(
     px_grid: list,
-    pen: Turtle,
+    t: Turtle,
     scale: int = 1,
     pos_offset: tuple[int, int] = (0, 0),
 ):
     """
     Draw pixel art according to ls
     """
-    pen.speed(0)
-    pen.hideturtle()
+    t.speed(0)
+    t.hideturtle()
     for row_idx, row in enumerate(px_grid):
         for col_idx, px_color in enumerate(row):
             if px_color:
                 pixel(
-                    pen,
+                    t,
                     px_color,
                     row_idx,
                     col_idx,
