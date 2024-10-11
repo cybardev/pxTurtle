@@ -10,8 +10,8 @@ class Pixel:
     scale: int = 1
 
     def __post_init__(self):
-        self._SIZE: int = 10
         self.t = Turtle()
+        self._SIZE: int = 10
 
     @property
     def pos(self) -> tuple[int, int]:
