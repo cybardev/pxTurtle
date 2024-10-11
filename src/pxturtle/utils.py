@@ -8,20 +8,18 @@ class Pixel:
     y_pos: int
     color: str = "#ffffff"
     scale: int = 1
-    t: Turtle = None
 
     def __post_init__(self):
         self._SIZE: int = 10
-        if self.t is None:
-            self.t = Turtle()
+        self.t = Turtle()
 
     @property
     def pos(self) -> tuple[int, int]:
         return self.x_pos, self.y_pos
 
     @pos.setter
-    def pos(self, pos: tuple[int, int]):
-        self.x_pos, self.y_pos = pos
+    def pos(self, new_pos: tuple[int, int]):
+        self.x_pos, self.y_pos = new_pos
 
     def draw(self):
         self.t.penup()
@@ -50,7 +48,7 @@ class Rect:
 
     def __post_init__(self):
         self._t = Turtle()
-        self._px = Pixel(self.x_pos, self.y_pos, self.color, self.scale, self._t)
+        self._px = Pixel(self.x_pos, self.y_pos, self.color, self.scale, self.t)
 
     @property
     def t(self) -> Turtle:
@@ -66,16 +64,16 @@ class Rect:
         return self.x_pos, self.y_pos
 
     @pos.setter
-    def pos(self, pos: tuple[int, int]):
-        self.x_pos, self.y_pos = pos
+    def pos(self, new_pos: tuple[int, int]):
+        self.x_pos, self.y_pos = new_pos
 
     @property
     def size(self) -> tuple[int, int]:
         return self.width, self.height
 
     @size.setter
-    def size(self, size: tuple[int, int]):
-        self.width, self.height = size
+    def size(self, new_size: tuple[int, int]):
+        self.width, self.height = new_size
 
     def draw(self):
         for row in self.height:

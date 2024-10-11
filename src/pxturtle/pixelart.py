@@ -6,14 +6,17 @@ from .utils import Pixel, Rect
 
 @dataclass
 class PixelArt:
-    t: Turtle
+    pixels: list[Pixel | Rect]
     bg_color: str = "#ffffff"
     scale: int = 1
 
-    def draw(self, pixels: list[Pixel | Rect]):
+    def __post_init__(self):
+        self.t = Turtle()
+
+    def draw(self):
         self.t.speed(0)
         self.t.hideturtle()
-        for px in pixels:
+        for px in self.pixels:
             px.t = self.t
             px.scale = self.scale
             px.draw()
