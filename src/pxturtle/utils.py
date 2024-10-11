@@ -1,4 +1,77 @@
+from dataclasses import dataclass
 from turtle import Turtle
+
+
+@dataclass
+class Pixel:
+    x_pos: int
+    y_pos: int
+    color: str = "#ffffff"
+    scale: int = 1
+
+    @property
+    def pos(self) -> tuple[int, int]:
+        return self.x_pos, self.y_pos
+
+    @pos.setter
+    def pos(self, pos: tuple[int, int]):
+        self.x_pos, self.y_pos = pos
+
+
+@dataclass
+class Pen:
+    color: str = "#000000"
+    pixel_scale: int = 1
+
+    def __post_init__(self):
+        init_pos = (0, 0)
+        self._pixel = Pixel(*init_pos, self.color, self.pixel_scale)
+
+    def draw(self, x, y, t: Turtle):
+        PIXEL_SIZE: int = 10
+        t.penup()
+        t.goto(x * self.pixel_scale * PIXEL_SIZE, -y * self.pixel_scale * PIXEL_SIZE)
+        t.setheading(90)
+        t.color(self.color)
+        t.pendown()
+        t.begin_fill()
+        # draw scaled pixel
+        for _ in range(4):
+            t.fd(self.pixel_scale * PIXEL_SIZE)
+            t.left(90)
+        t.end_fill()
+
+
+@dataclass
+class Rect:
+    x_pos: int
+    y_pos: int
+    width: int
+    height: int
+    color: str = "#000000"
+    pixel_scale: int = 1
+
+    def __post_init__(self):
+        self._pen = Pen(self.color, self.pixel_scale)
+
+    @property
+    def pos(self) -> tuple[int, int]:
+        return self.x_pos, self.y_pos
+
+    @pos.setter
+    def pos(self, pos: tuple[int, int]):
+        self.x_pos, self.y_pos = pos
+
+    @property
+    def size(self) -> tuple[int, int]:
+        return self.width, self.height
+
+    @size.setter
+    def size(self, size: tuple[int, int]):
+        self.width, self.height = size
+
+    def draw(self):
+        pass
 
 
 def pixel(
