@@ -8,6 +8,12 @@ class Pixel:
     y_pos: int
     color: str = "#ffffff"
     scale: int = 1
+    t: Turtle = None
+
+    def __post_init__(self):
+        self._SIZE: int = 10
+        if self.t is None:
+            self.t = Turtle()
 
     @property
     def pos(self) -> tuple[int, int]:
@@ -17,22 +23,10 @@ class Pixel:
     def pos(self, pos: tuple[int, int]):
         self.x_pos, self.y_pos = pos
 
-
-@dataclass
-class Pen:
-    t: Turtle
-    color: str = "#000000"
-    pixel_scale: int = 1
-
-    def __post_init__(self):
-        init_pos = (0, 0)
-        self._pixel = Pixel(*init_pos, self.color, self.pixel_scale)
-
-    def draw(self, x, y):
-        PIXEL_SIZE: int = 10
+    def draw(self):
         self.t.penup()
         self.t.goto(
-            x * self.pixel_scale * PIXEL_SIZE, -y * self.pixel_scale * PIXEL_SIZE
+            self.x_pos * self.scale * self._SIZE, -self.y_pos * self.scale * self._SIZE
         )
         self.t.setheading(90)
         self.t.color(self.color)
@@ -40,7 +34,7 @@ class Pen:
         self.t.begin_fill()
         # draw scaled pixel
         for _ in range(4):
-            self.t.fd(self.pixel_scale * PIXEL_SIZE)
+            self.t.fd(self.scale * self._SIZE)
             self.t.left(90)
         self.t.end_fill()
 
@@ -51,12 +45,21 @@ class Rect:
     y_pos: int
     width: int
     height: int
-    t: Turtle
     color: str = "#000000"
     pixel_scale: int = 1
 
     def __post_init__(self):
-        self._pen = Pen(self.t, self.color, self.pixel_scale)
+        self._t = Turtle()
+        self._px = Pixel(self.x_pos, self.y_pos, self.color, self.pixel_scale, self._t)
+
+    @property
+    def t(self) -> Turtle:
+        return self._t
+
+    @t.setter
+    def t(self, new_t: Turtle):
+        self._t = new_t
+        self._px.t = new_t
 
     @property
     def pos(self) -> tuple[int, int]:
@@ -75,10 +78,10 @@ class Rect:
         self.width, self.height = size
 
     def draw(self):
-        with self.width as cols, self.height as rows:
-            for r in rows:
-                for c in cols:
-                    self._pen.draw(self.x_pos + c, -(self.y_pos + r))
+        for row in self.height:
+            for col in self.width:
+                self._px.pos = self.x_pos + col, -(self.y_pos + row)
+                self._px.draw()
 
 
 def pixel(
