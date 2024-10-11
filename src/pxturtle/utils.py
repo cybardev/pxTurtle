@@ -46,11 +46,11 @@ class Rect:
     width: int
     height: int
     color: str = "#000000"
-    pixel_scale: int = 1
+    scale: int = 1
 
     def __post_init__(self):
         self._t = Turtle()
-        self._px = Pixel(self.x_pos, self.y_pos, self.color, self.pixel_scale, self._t)
+        self._px = Pixel(self.x_pos, self.y_pos, self.color, self.scale, self._t)
 
     @property
     def t(self) -> Turtle:

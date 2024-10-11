@@ -8,14 +8,14 @@ from .utils import Pixel, Rect
 class PixelArt:
     t: Turtle
     bg_color: str = "#ffffff"
-    px_scale: int = 1
+    scale: int = 1
 
     def draw(self, pixels: list[Pixel | Rect]):
         self.t.speed(0)
         self.t.hideturtle()
         for px in pixels:
             px.t = self.t
-            px.scale = self.px_scale
+            px.scale = self.scale
             px.draw()
 
 
