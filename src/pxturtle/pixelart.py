@@ -1,5 +1,7 @@
+import tkinter as tk
+import turtle
+
 from dataclasses import dataclass
-from turtle import Turtle
 
 from .utils import Pixel, Rect
 
@@ -11,7 +13,7 @@ class PixelArt:
     scale: int = 1
 
     def __post_init__(self):
-        self.t = Turtle()
+        self.t = turtle.Turtle()
 
     def draw(self):
         self.t.speed(0)
@@ -29,8 +31,26 @@ class Canvas:
     height: int
     bg_color: str = "#ffffff"
 
-    def draw(self, **kwargs):
-        pass
+    def __post_init__(self):
+        self._root = tk.Tk()
 
-    def save(self, format: str = "png"):
-        pass
+        self._canvas = turtle.ScrolledCanvas(
+            self._root, self.width, self.height, self.width, self.height
+        )
+        self._canvas.pack(side=tk.LEFT)
+
+        self._screen = turtle.TurtleScreen(self._canvas)
+        self._screen.setworldcoordinates(-10, 100, 100, -10)
+
+        self._t = turtle.RawTurtle(self._screen)
+
+    def draw(self):
+        self._t.goto(0, 0)
+
+        self.art.t = self._t
+        self.art.draw()
+
+        self._screen.mainloop()
+
+    def save(self, filename: str, path: str = "."):
+        self._canvas.postscript(file=f"{path}/{filename}.eps")
