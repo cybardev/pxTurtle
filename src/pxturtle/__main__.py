@@ -1,6 +1,56 @@
 from turtle import Screen, Turtle
 
-from .utils import pixelart, next_pow_of_2
+
+def px_draw(
+    t: Turtle,
+    color: str,
+    row: int,
+    col: int,
+    scale: int,
+    x_offset: int,
+    y_offset: int,
+):
+    PIXEL_SIZE: int = 10
+    t.penup()
+    t.goto(col * scale * PIXEL_SIZE + x_offset, -row * scale * PIXEL_SIZE + y_offset)
+    t.setheading(90)
+    t.color(color)
+    t.pendown()
+    t.begin_fill()
+    # draw scaled pixel
+    for _ in range(4):
+        t.fd(scale * PIXEL_SIZE)
+        t.left(90)
+    t.end_fill()
+
+
+def px_grid_draw(
+    px_grid: list,
+    t: Turtle,
+    scale: int = 1,
+    pos_offset: tuple[int, int] = (0, 0),
+):
+    """
+    Draw pixel art according to ls
+    """
+    t.speed(0)
+    t.hideturtle()
+    for row_idx, row in enumerate(px_grid):
+        for col_idx, px_color in enumerate(row):
+            if px_color:
+                px_draw(
+                    t,
+                    px_color,
+                    row_idx,
+                    col_idx,
+                    scale,
+                    pos_offset[0],
+                    pos_offset[1],
+                )
+
+
+def next_pow_of_2(x: int):
+    return 1 << (x - 1).bit_length()
 
 
 if __name__ == "__main__":
@@ -35,6 +85,6 @@ if __name__ == "__main__":
     wn.setup(w, h)
     wn.tracer(0)
 
-    pixelart(dolphin, Turtle(), 1, (-w / 2, h / 2))
+    px_grid_draw(dolphin, Turtle(), 1, (-w / 2, h / 2))
 
     wn.mainloop()
